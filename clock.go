@@ -1,6 +1,6 @@
 package clock
 
-// Clock defines the datatype with which we can do time based comparisons
+// Clock defines the datatype with which we can do time based comparisons. It's worth noting that time.Time implements this so you can just pass those through to the functions in this lib
 type Clock interface {
 	Clock() (hours int, minutes int, seconds int)
 }
