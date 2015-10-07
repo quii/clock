@@ -32,11 +32,8 @@ var equalCases = []struct{T1, T2 time.Time}{
 	{baseTime, baseTime.AddDate(0,0,-1)},
 
 	{baseTime, baseTime.Add(2 * time.Nanosecond)},
-	{baseTime.Add(-2 * time.Nanosecond), baseTime},
 	{baseTime, baseTime.Add(2 * time.Millisecond)},
-	{baseTime.Add(-2 * time.Millisecond), baseTime},
 	{baseTime, baseTime.Add(2 * time.Microsecond)},
-	{baseTime.Add(-2 * time.Microsecond), baseTime},
 }
 
 func TestBefore(t *testing.T) {
