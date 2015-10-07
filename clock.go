@@ -12,7 +12,12 @@ func After(c1 Clock, c2 Clock) bool {
 
 // Before will tell you if c1 is earlier than c2
 func Before(c1 Clock, c2 Clock) bool {
-	return !After(c1, c2)
+	return timeToSeconds(c1) < timeToSeconds(c2)
+}
+
+// Equals will tell you if c1 is equal to c2
+func Equals(c1 Clock, c2 Clock) bool {
+	return timeToSeconds(c1) == timeToSeconds(c2)
 }
 
 func timeToSeconds(c Clock) int {
