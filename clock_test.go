@@ -9,8 +9,8 @@ import (
 // Start with a base time fixed to noon, so we can add/subtract without unintentionally crossing into another day.
 var baseTime = time.Date(2015, 10, 7, 12, 0, 0, 0, time.Local)
 
-// A list of test cases each containing times with an earlier and later clock value.
-// Changing baseTime's hours/minutes/seconds should affect it's Clock value.
+// A list of test cases each containing times with an earlier and later Clock values.
+// Changing baseTime's hours/minutes/seconds should affect it's Clock values.
 var unEqualCases = []struct{Earlier, Later time.Time}{
 	{baseTime, baseTime.Add(2 * time.Second)},
 	{baseTime.Add(-2 * time.Second), baseTime},
@@ -20,8 +20,8 @@ var unEqualCases = []struct{Earlier, Later time.Time}{
 	{baseTime.Add(-2 * time.Hour), baseTime},
 }
 
-// A list of test cases containing Times with equal clock values.
-// Changing baseTime's years/months/days or milli/micor/nanoseconds should not affect it's Clock value.
+// A list of test cases containing Times with equal Clock values.
+// Changing baseTime's years/months/days or milli/micro/nanoseconds should not affect it's Clock values.
 var equalCases = []struct{T1, T2 time.Time}{
 	{baseTime, baseTime},
 	{baseTime, baseTime.AddDate(10,0,0)},
@@ -32,11 +32,11 @@ var equalCases = []struct{T1, T2 time.Time}{
 	{baseTime, baseTime.AddDate(0,0,-1)},
 
 	{baseTime, baseTime.Add(2 * time.Nanosecond)},
-	{baseTime.Add(2 * time.Nanosecond), baseTime},
+	{baseTime.Add(-2 * time.Nanosecond), baseTime},
 	{baseTime, baseTime.Add(2 * time.Millisecond)},
-	{baseTime.Add(2 * time.Millisecond), baseTime},
+	{baseTime.Add(-2 * time.Millisecond), baseTime},
 	{baseTime, baseTime.Add(2 * time.Microsecond)},
-	{baseTime.Add(2 * time.Microsecond), baseTime},
+	{baseTime.Add(-2 * time.Microsecond), baseTime},
 }
 
 func TestBefore(t *testing.T) {
