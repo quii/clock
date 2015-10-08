@@ -20,7 +20,26 @@ func Equals(c1 Clock, c2 Clock) bool {
 	return timeToSeconds(c1) == timeToSeconds(c2)
 }
 
+// Between returns the duration in seconds between c1 and c2.
+// Note that the result is negative if c1 is after c2.
+func Between(c1 Clock, c2 Clock) int {
+	return timeToSeconds(c2) - timeToSeconds(c1)
+}
+
+// Until returns the duration in seconds from c1 until c2, going forward in time.
+// Result is always non-negative.
+func Until(c1 Clock, c2 Clock) int {
+	if After(c1, c2) {
+		return secondsInADay - Between(c2, c1)
+	} else {
+		// Before(c1, c2) or Equals(c1, c2)
+		return Between(c1, c2)
+	}
+}
+
 func timeToSeconds(c Clock) int {
 	hours, mins, secs := c.Clock()
 	return hours*60*60 + mins*60 + secs
 }
+
+const secondsInADay = 60 * 60 * 24
