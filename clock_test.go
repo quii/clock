@@ -78,18 +78,18 @@ func TestEquals(t *testing.T) {
 func TestBetween(t *testing.T) {
 	for _,testCase := range []struct{
 		T1, T2 time.Time
-		// Expected seconds between
-		Expected int
+		// Expected duration between
+		Expected time.Duration
 	} {
-		{baseTime, baseTime.Add(10 * time.Second), 10},
-		{baseTime, baseTime.Add(23 * time.Hour), int((-1 * time.Hour) / time.Second)},
+		{baseTime, baseTime.Add(10 * time.Second), 10 * time.Second},
+		{baseTime, baseTime.Add(23 * time.Hour), -1 * time.Hour},
 		{baseTime, baseTime.Add(24 * time.Hour), 0},
-		{baseTime, baseTime.Add((secondsInADay-1) * time.Second), -1},
-		{baseTime, baseTime.Add(-1 * time.Second), -1},
+		{baseTime, baseTime.Add(24 * time.Hour - (1 * time.Second)), -1 * time.Second},
+		{baseTime, baseTime.Add(-1 * time.Second), -1 * time.Second},
 		{baseTime, baseTime.AddDate(1, 1, 1), 0},
 	} {
 		if got := Between(testCase.T1, testCase.T2); got != testCase.Expected {
-			t.Errorf("expected %ds between %s and %s, but got %ds", testCase.Expected, testCase.T1, testCase.T2, got)
+			t.Errorf("expected %s between %s and %s, but got %s", testCase.Expected, testCase.T1, testCase.T2, got)
 		}
 	}
 }
@@ -97,18 +97,18 @@ func TestBetween(t *testing.T) {
 func TestUntil(t *testing.T) {
 	for _,testCase := range []struct {
 		T1, T2 time.Time
-		// Expected seconds until
-		Expected int
+		// Expected duration until
+		Expected time.Duration
 	} {
-		{baseTime, baseTime.Add(100 * time.Second), 100},
-		{baseTime, baseTime.Add(25 * time.Hour), int((1 * time.Hour) / time.Second)},
+		{baseTime, baseTime.Add(100 * time.Second), 100 * time.Second},
+		{baseTime, baseTime.Add(25 * time.Hour), 1 * time.Hour},
 		{baseTime, baseTime.Add(24 * time.Hour), 0},
-		{baseTime, baseTime.Add((secondsInADay-1) * time.Second), secondsInADay-1},
-		{baseTime, baseTime.Add(-1 * time.Second), secondsInADay-1},
+		{baseTime, baseTime.Add(24 * time.Hour - (1 * time.Second)), 24 * time.Hour - (1 * time.Second)},
+		{baseTime, baseTime.Add(-1 * time.Second), 24 * time.Hour - (1 * time.Second)},
 		{baseTime, baseTime.AddDate(1, 1, 1), 0},
 	} {
 		if got := Until(testCase.T1, testCase.T2); got != testCase.Expected {
-			t.Errorf("expected %ds between %s and %s, but got %ds", testCase.Expected, testCase.T1, testCase.T2, got)
+			t.Errorf("expected %s between %s and %s, but got %s", testCase.Expected, testCase.T1, testCase.T2, got)
 		}
 	}
 }
